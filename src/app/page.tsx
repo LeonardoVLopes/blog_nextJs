@@ -3,14 +3,13 @@ import { Suspense } from "react";
 import { SpinLoader } from "@/components/SpinLoader";
 import PostsList from "@/components/PostsList";
 import { Container } from "@/components/Container";
+import { Header } from "@/components/Header";
 
 export default async function Home() {
   const posts = await postRepository.findAll();
   return (
     <Container>
-      <header>
-        <h1 className="text-6xl font-bold text-center py-8">Aqui e o header</h1>
-      </header>
+      <Header />
 
       <Suspense fallback={<SpinLoader />}>
         <PostsList />
