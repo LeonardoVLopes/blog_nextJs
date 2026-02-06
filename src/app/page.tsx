@@ -4,8 +4,6 @@ import { SpinLoader } from "@/components/SpinLoader";
 import PostsList from "@/components/PostsList";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/Header";
-import Link from "next/link";
-import Image from "next/image";
 import { PostHeading } from "@/components/PostHeading";
 import { PostCoverImg } from "@/components/PostCoverImg";
 
@@ -15,8 +13,9 @@ export default async function Home() {
     <Container>
       <Header />
 
-      <section className="grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group">
+      <section className="grid grid-cols-1 gap-8 mb-16 lg:grid-cols-2 group">
         <PostCoverImg
+          href="#"
           src="/img/bryen_0.png"
           width={1200}
           height={720}
@@ -24,18 +23,14 @@ export default async function Home() {
         />
         <div className="flex flex-col gap-4 sm:justify-center">
           <time
-            dateTime="2026-02-5"
+            dateTime="{post.createdAt}"
             className="text-slate-600 block text-sm/tight"
           >
-            05/02/2026 20:00
+            05/02/2026 10:00
           </time>
           <PostHeading as="h1" url="#">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
           </PostHeading>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis
-          voluptatibus eius suscipit reprehenderit maiores! Reprehenderit
-          aliquid error possimus dicta itaque tenetur. Quia, corrupti tempora
-          maxime odio perferendis iure ab vero.
         </div>
       </section>
 

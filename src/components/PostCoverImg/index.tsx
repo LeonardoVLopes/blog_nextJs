@@ -2,15 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 type PostCoverImgPros = {
+  href: string;
   src: string;
   width: number;
   height: number;
   alt: string;
 };
 
-export function PostCoverImg({ src, width, height, alt }: PostCoverImgPros) {
+export function PostCoverImg({
+  src,
+  width,
+  height,
+  alt,
+  href,
+}: PostCoverImgPros) {
   return (
-    <Link className="w-full h-full overflow-hidden rounded-xl" href="#">
+    <Link className="w-full h-full overflow-hidden rounded-xl" href={href}>
       <Image
         className="w-full h-full object-cover object-center group-hover:scale-105 transition"
         src={src}
