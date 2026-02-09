@@ -1,5 +1,6 @@
 import { PostCoverImg } from "../PostCoverImg";
 import { PostHeading } from "../PostHeading";
+import { PostSummary } from "../PostSummary";
 
 export function Postfeatured() {
   const slug = "qualquer";
@@ -14,17 +15,15 @@ export function Postfeatured() {
         height={720}
         alt="Titulo do post"
       />
-      <div className="flex flex-col gap-4 sm:justify-center">
-        <time
-          dateTime="{post.createdAt}"
-          className="text-slate-600 block text-sm/tight"
-        >
-          05/02/2026 10:00
-        </time>
-        <PostHeading as="h1" url={postLink}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-        </PostHeading>
-      </div>
+      <PostSummary
+        postLink={postLink}
+        postHeading="h1"
+        createdAt={"2025-01-07T22:54:10"}
+        title={"10 hábitos para aumentar sua produtividade"}
+        excerpt={
+          "o Next.js já vem com várias decisões prontas, permitindo que você comece a desenvolver mais rapidamente."
+        }
+      />
     </section>
   );
 }
