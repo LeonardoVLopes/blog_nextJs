@@ -7,7 +7,7 @@ import { Header } from "@/components/Header";
 import { Postfeatured } from "@/components/PostFeatured";
 
 export default async function Home() {
-  const posts = await postRepository.findAll();
+  const posts = await postRepository.findAllPublic();
   return (
     <Container>
       <Header />
