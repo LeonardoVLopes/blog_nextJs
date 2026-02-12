@@ -1,6 +1,6 @@
 import { postModel } from "@/models/post/post-model";
 import { PostRepository } from "./post-repository";
-import { parse, resolve } from "path";
+import { resolve } from "path";
 import { readFile } from "fs/promises";
 
 const ROOT_DIR = process.cwd();
@@ -11,8 +11,15 @@ const JSON_POST_FILE_PATH = resolve(
   "seed",
   "posts.json",
 );
+const SIMULATE_WAIT_IN_MS = 0;
 
 export class JsonPostRepository implements PostRepository {
+  private async simulateWait() {
+    if (SIMULATE_WAIT_IN_MS <= 0) return;
+
+    await new Promise((resolve) => setTimeout(resolve, SIMULATE_WAIT_IN_MS));
+  }
+
   private async readFromDisk(): Promise<postModel[]> {
     const jsonContent = await readFile(JSON_POST_FILE_PATH, "utf-8");
     const parsedJson = JSON.parse(jsonContent);
@@ -29,7 +36,15 @@ export class JsonPostRepository implements PostRepository {
     const posts = await this.findAllPublic();
     const post = posts.find((post) => post.id === id);
 
-    if (!post) throw new Error("post nao encontrado");
+    if (!post) throw new Error("post nao encontrado para ID");
+    return post;
+  }
+
+  async findBySlug(slug: string): Promise<postModel> {
+    const posts = await this.findAllPublic();
+    const post = posts.find((post) => post.slug === slug);
+
+    if (!post) throw new Error("post nao encontrado para slug");
     return post;
   }
 }

@@ -19,13 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <Container>
-        <Header />
+      <body>
+        <Container>
+          <Header />
 
-        <body>{children}</body>
+          <body>{children}</body>
 
-        <Footer />
-      </Container>
+          <Footer />
+        </Container>
+      </body>
     </html>
   );
 }
