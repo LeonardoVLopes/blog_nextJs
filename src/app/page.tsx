@@ -10,9 +10,6 @@ export default async function Home() {
     <>
       <Suspense fallback={<SpinLoader />}>
         <Postfeatured />
-      </Suspense>
-
-      <Suspense fallback={<SpinLoader />}>
         <PostsList />
       </Suspense>
     </>
