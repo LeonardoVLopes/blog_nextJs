@@ -1,4 +1,4 @@
-import { postRepository } from "@/repositories/post/json-post-repository";
+import { postRepository } from "@/repositories/post/index";
 import { Suspense } from "react";
 import { SpinLoader } from "@/components/SpinLoader";
 import PostsList from "@/components/PostsList";

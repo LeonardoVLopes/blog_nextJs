@@ -6,6 +6,7 @@ export async function Postfeatured() {
   const posts = await findAllPublicPostsCached();
   const post = posts[0];
 
+  console.log(posts);
   const postLink = `/post/${post.slug}`;
 
   return (

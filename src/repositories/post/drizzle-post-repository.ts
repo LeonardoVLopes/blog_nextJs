@@ -7,6 +7,8 @@ import { desc, eq } from "drizzle-orm";
 export class DrizzlePostRepository implements PostRepository {
   // busca somente os posts com published true
   async findAllPublic(): Promise<postModel[]> {
+    console.log("\n", "findAllPublic", "\n");
+
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
       where: (posts, { eq }) => eq(posts.published, true),
@@ -16,14 +18,43 @@ export class DrizzlePostRepository implements PostRepository {
   }
 
   // busca somente os posts com published true
-  async findBySlugPublic(id: string): Promise<postModel> {}
+  async findBySlugPublic(slug: string): Promise<postModel> {
+    console.log("\n", "findBySlugPublic", "\n");
 
-  async findAll(): Promise<postModel[]> {}
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq, and }) =>
+        and(eq(posts.published, true), eq(posts.slug, slug)),
+    });
 
-  async findById(id: string): Promise<postModel> {}
+    if (!post) throw new Error("post nao encontrado para slug");
+
+    return post;
+  }
+
+  async findAll(): Promise<postModel[]> {
+    console.log("\n", "findAll", "\n");
+
+    const posts = await drizzleDb.query.posts.findMany();
+
+    return posts;
+  }
+
+  async findById(id: string): Promise<postModel> {
+    console.log("\n", "findById", "\n");
+
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.id, id),
+    });
+
+    if (!post) throw new Error("post nao encontrado para ID");
+
+    return post;
+  }
 }
 
 async () => {
   const repo = new DrizzlePostRepository();
-  const posts = await repo.findAllPublic();
+  const post = await repo.findAllPublic();
+
+  console.log(post);
 };
