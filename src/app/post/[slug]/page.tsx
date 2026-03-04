@@ -2,8 +2,8 @@ import { SinglePost } from "@/components/SinglePost";
 import { SpinLoader } from "@/components/SpinLoader";
 import {
   findAllPublicPostsCached,
-  findPostBySlugCached,
-} from "@/lib/post/queries";
+  findPublicPostBySlugCached,
+} from "@/lib/post/queries/public";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { title } from "process";
@@ -17,7 +17,7 @@ export async function generateMetaData({
   params,
 }: PostSlugPagePros): Promise<Metadata> {
   const { slug } = await params;
-  const post = await findPostBySlugCached(slug);
+  const post = await findPublicPostBySlugCached(slug);
 
   return {
     title: post.title,
