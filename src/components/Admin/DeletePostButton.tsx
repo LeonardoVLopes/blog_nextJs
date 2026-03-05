@@ -15,6 +15,7 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
 
   function handleClick() {
     if (!confirm("tem certeza")) return;
+    
     startTransition(async () => {
       const result = await deletePostAction(id);
       alert(`o result e ${result}`);
