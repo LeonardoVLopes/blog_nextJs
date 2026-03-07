@@ -1,13 +1,17 @@
 import { deletePostAction } from "@/actions/post/delete-post-action";
 import { findAllPostAdmin } from "@/lib/post/queries/admin";
 import clsx from "clsx";
-import { Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { DeletePostButton } from "../Admin/DeletePostButton";
-import { Dialog } from "../Dialog";
+import ErrorMessage from "../ErrorMessage";
 
 export default async function PostsListAdmin() {
   const posts = await findAllPostAdmin();
+
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage contentTitle="Ops!" content="Bora criar algum post?" />
+    );
 
   return (
     <div className="mb-16 text-black bg-white">
