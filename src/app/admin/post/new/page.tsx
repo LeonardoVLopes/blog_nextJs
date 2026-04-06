@@ -1,31 +1,21 @@
 import { Button } from "@/components/Button";
+import { InputText } from "@/components/InputText";
 
 export default async function AdminPostNewPage() {
   return (
-    <>
-      <div className="py-16 gap-4 flex flex-wrap items-center">
-        <Button variant="default" size="sm">
-          Confirma
-        </Button>
-        <Button variant="ghost" size="md">
-          Confirma
-        </Button>
-        <Button variant="danger" size="lg">
-          Confirma
-        </Button>
-      </div>
-
-      <div className="py-16 gap-4 flex flex-wrap items-center">
-        <Button variant="default" size="sm" disabled>
-          Confirma
-        </Button>
-        <Button variant="ghost" size="md" disabled>
-          Confirma
-        </Button>
-        <Button variant="danger" size="lg" disabled>
-          Confirma
-        </Button>
-      </div>
-    </>
+    <div>
+      <InputText labelText="Nome" placeholder="Digite seu nome" />
+      <InputText labelText="Sobrenome" placeholder="Digite seu sobrenome" />
+      <InputText
+        disabled
+        labelText="digite seu nome"
+        placeholder="Digite seu sobrenome"
+      />
+      <InputText
+        disabled
+        labelText="Sobrenome"
+        placeholder="Digite seu sobrenome"
+      />
+    </div>
   );
 }
