@@ -1,5 +1,5 @@
 import { ManagePostForm } from "@/components/Admin/ManagePostForm";
-import { makePublicPost } from "@/dto/dto";
+import { makePublicPostFromDb } from "@/dto/dto";
 import { findPostByIdAdmin } from "@/lib/post/queries/admin";
 import { notFound } from "next/navigation";
 
@@ -17,7 +17,7 @@ export default async function AdminPostIdPage({
 
   if (!post) notFound();
 
-  const publicPost = makePublicPost(post);
+  const publicPost = makePublicPostFromDb(post);
 
   return (
     <div className="text-xl font-extrabold">

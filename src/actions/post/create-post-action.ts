@@ -1,13 +1,19 @@
 "use server";
 
+import { PublicPost } from "@/dto/dto";
+
 type createPostActionState = {
-  numero: number;
+  formState: PublicPost;
+  errors: string[];
 };
 
 export async function createPostAction(
   prevState: createPostActionState,
+  formData: FormData,
 ): Promise<createPostActionState> {
+  
   return {
-    numero: prevState.numero,
+    formState: prevState.formState,
+    errors: [],
   };
 }
