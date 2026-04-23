@@ -49,7 +49,7 @@ export function ImageUploader() {
     startTransition(async () => {
       const result = await uploadImageAction(formData);
 
-      if (result.error) {
+      if (result?.error) {
         toast.error(result.error);
         fileInput.value = "";
         setImgUrl("");

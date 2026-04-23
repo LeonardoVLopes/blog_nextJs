@@ -51,5 +51,5 @@ export async function uploadImageAction(
 
   const url = `${IMAGE_SERVER_URL}/${uniqueImageName}`;
 
-  return makeResult({ url: "URL" });
+  return makeResult({ url });
 }

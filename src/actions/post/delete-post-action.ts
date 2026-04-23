@@ -5,7 +5,6 @@ import { postsTable } from "@/db/drizzle/schemas";
 import { postRepository } from "@/repositories/post";
 import { asyncDelay } from "@/utils/async-daley";
 import { logColor } from "@/utils/log-color";
-import { profile } from "console";
 import { eq, max } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 
