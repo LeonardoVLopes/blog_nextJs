@@ -13,7 +13,7 @@ export function InputText({ labelText = "", ...props }: InputTextProps) {
       {labelText && <label htmlFor={id}>{labelText}</label>}
       <input
         className={clsx(
-          "bg-white outline-0 text-base/tight",
+          "bg-white outline-0 text-base/tight text-black",
           "ring-1 ring-slate-400 rounded",
           "p-2 transition focus:ring-blue-600",
           "placeholder-slate-300",
