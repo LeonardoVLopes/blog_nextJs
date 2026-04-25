@@ -9,27 +9,57 @@ import { ImageUploader } from "../ImageUploader";
 import { makePartialPublicPost, PublicPost } from "@/dto/dto";
 import { createPostAction } from "@/actions/post/create-post-action";
 import { toast } from "react-toastify";
+import { updatePostAction } from "@/actions/post/update-post-action";
 
-type ManagePostFormProps = {
+type ManagePostFormUpdateProps = {
+  mode: "update";
   publicPost?: PublicPost;
 };
 
-export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+type ManagePostFormCreateProps = {
+  mode: "create";
+  publicPost?: PublicPost;
+};
+
+type ManagePostFormProps =
+  | ManagePostFormUpdateProps
+  | ManagePostFormCreateProps;
+
+export function ManagePostForm(props: ManagePostFormProps) {
+  const { mode } = props;
+
+  let publicPost;
+  if (mode == "update") {
+    publicPost = props.publicPost;
+  }
+
+  const actionsMap = {
+    update: updatePostAction,
+    create: createPostAction,
+  };
+
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
   };
   const [state, action, isPending] = useActionState(
-    createPostAction,
+    actionsMap[mode],
     initialState,
   );
+
+  useEffect(() => {
+    if (state.success) {
+      toast.dismiss();
+      toast.success("Post atualizado com sucesso");
+    }
+  }, [state.errors]);
 
   useEffect(() => {
     if (state.errors.length > 0) {
       toast.dismiss();
       state.errors.forEach((error) => toast.error(error));
     }
-  }, [state.errors]);
+  }, [state.success]);
 
   const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || "");
@@ -41,7 +71,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           labelText="ID"
           name="id"
           placeholder="ID gerado automaticamente"
-          disabled
+          disabled={isPending}
           type="text"
           defaultValue={formState.id}
         />
@@ -50,7 +80,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           labelText="Slug"
           name="slug"
           placeholder="Slug gerado automaticamente"
-          disabled
+          disabled={isPending}
           type="text"
           defaultValue={formState.slug}
         />
@@ -61,6 +91,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder="Digite o nome do autor"
           type="text"
           defaultValue={formState.author || ""}
+          disabled={isPending}
         />
 
         <InputText
@@ -69,6 +100,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder="Digite o titulo"
           type="text"
           defaultValue={formState.title}
+          disabled={isPending}
         />
 
         <InputText
@@ -77,6 +109,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder="Digite o resumo"
           type="text"
           defaultValue={formState.excerpt}
+          disabled={isPending}
         />
 
         <MarkdownEditor
@@ -84,7 +117,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           value={contentValue}
           setValue={setContentValue}
           textAreaName="content"
-          disabled={false}
+          disabled={isPending}
         />
 
         <ImageUploader />
@@ -95,6 +128,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           placeholder="Digite a url da imagem"
           type="text"
           defaultValue={formState.coverImageUrl}
+          disabled={isPending}
         />
 
         <InputCheckBox
@@ -102,10 +136,13 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name="published"
           type="checkbox"
           defaultChecked={formState.published}
+          disabled={isPending}
         />
 
         <div className="mt-4">
-          <Button type="submit">Enviar</Button>
+          <Button type="submit" disabled={isPending}>
+            Enviar
+          </Button>
         </div>
       </div>
     </form>

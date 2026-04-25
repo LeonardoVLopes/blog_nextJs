@@ -3,11 +3,16 @@
 import { uploadImageAction } from "@/actions/upload/upload-image-action";
 import { Button } from "@/components/Button";
 import { IMAGE_UPLOAD_MAX_SIZE } from "@/lib/constants";
+import { faIR } from "date-fns/locale";
 import { ImageUpIcon } from "lucide-react";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "react-toastify";
 
-export function ImageUploader() {
+type ImageUploaderProps = {
+  disabled?: boolean;
+};
+
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, startTransition] = useTransition();
   const [imgUrl, setImgUrl] = useState("");
@@ -65,7 +70,11 @@ export function ImageUploader() {
 
   return (
     <div className="flex flex-col gap-2 items-start">
-      <Button onClick={handleChooseFile} type="button" disabled={isUploading}>
+      <Button
+        onClick={handleChooseFile}
+        type="button"
+        disabled={isUploading || disabled}
+      >
         <ImageUpIcon />
         Enviar uma imagem
       </Button>
@@ -84,6 +93,7 @@ export function ImageUploader() {
         type="file"
         name="file"
         accept="image/*"
+        disabled={isUploading || disabled}
       />
     </div>
   );
