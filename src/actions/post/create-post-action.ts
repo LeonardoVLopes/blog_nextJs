@@ -68,5 +68,5 @@ export async function createPostAction(
   await drizzleDb.insert(postsTable).values(newPost);
 
   revalidateTag("posts", "max");
-  redirect(`/admin/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }
