@@ -2,15 +2,16 @@ import { postModel } from "@/models/post/post-model";
 import { PostRepository } from "./post-repository";
 import { drizzleDb } from "@/db/drizzle";
 import { postsTable } from "@/db/drizzle/schemas";
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { logColor } from "@/utils/log-color";
 import { asyncDelay } from "@/utils/async-daley";
-import { SIMULATE_WAIT_IN_MS } from "@/lib/constants";
+
+const simulateWaitMs = Number(process.env.SIMULATE_WAIT_IN_MS) || 0;
 
 export class DrizzlePostRepository implements PostRepository {
   // busca somente os posts com published true
   async findAllPublic(): Promise<postModel[]> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    await asyncDelay(simulateWaitMs, true);
     logColor("findAllPublic", Date.now());
 
     const posts = await drizzleDb.query.posts.findMany({
@@ -23,7 +24,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   // busca somente os posts com published true
   async findBySlugPublic(slug: string): Promise<postModel> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    await asyncDelay(simulateWaitMs, true);
     logColor("findBySlugPublic", Date.now());
 
     const post = await drizzleDb.query.posts.findFirst({
@@ -37,7 +38,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
 
   async findAll(): Promise<postModel[]> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    await asyncDelay(simulateWaitMs, true);
     logColor("findAll", Date.now());
 
     const posts = await drizzleDb.query.posts.findMany();
@@ -46,7 +47,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
 
   async findById(id: string): Promise<postModel> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    await asyncDelay(simulateWaitMs, true);
     logColor("findById", Date.now());
 
     const post = await drizzleDb.query.posts.findFirst({
