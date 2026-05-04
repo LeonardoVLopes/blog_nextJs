@@ -4,7 +4,6 @@ import { loginAction } from "@/actions/login/login-action";
 import { Button } from "@/components/Button";
 import { InputText } from "@/components/InputText";
 import clsx from "clsx";
-import { stat } from "fs";
 import { LogInIcon } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -17,9 +16,9 @@ export function LoginForm() {
   const [state, action, isPending] = useActionState(loginAction, initialState);
 
   useEffect(() => {
-    if (state.error) {
+    if (state?.error) {
       toast.dismiss();
-      toast.error(state.error);
+      toast.error(state?.error);
     }
   }, [state]);
 
@@ -30,14 +29,14 @@ export function LoginForm() {
         "text-center max-w-sm mt-16 mb-32 mx-auto",
       )}
     >
-      <form action="" className="flex-1 flex flex-col gap-6">
+      <form action={action} className="flex-1 flex flex-col gap-6">
         <InputText
           type="text"
           name="username"
           labelText="Usuario"
           placeholder="Seu Usuario"
           disabled={isPending}
-          defaultValue={state.username}
+          defaultValue={state?.username}
         />
         <InputText
           type="password"
@@ -51,7 +50,7 @@ export function LoginForm() {
           Entrar
         </Button>
 
-        {!!state.error && <p className="text-red-600">{state.error}</p>}
+        {!!state?.error && <p className="text-red-600">{state.error}</p>}
       </form>
     </div>
   );
