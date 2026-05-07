@@ -3,6 +3,7 @@
 import { drizzleDb } from "@/db/drizzle";
 import { postsTable } from "@/db/drizzle/schemas";
 import { makePartialPublicPost, PublicPost } from "@/dto/dto";
+import { verifyLoginSession } from "@/lib/login/manage-login";
 import { PostCreateSchema } from "@/lib/post/validations";
 import { postModel } from "@/models/post/post-model";
 import { postRepository } from "@/repositories/post";
@@ -22,6 +23,8 @@ export async function createPostAction(
   prevState: createPostActionState,
   formData: FormData,
 ): Promise<createPostActionState> {
+  const isAuthenticated = await verifyLoginSession();
+
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
@@ -31,6 +34,13 @@ export async function createPostAction(
 
   const formDataToObj = Object.fromEntries(formData.entries());
   const zodParsedObj = PostCreateSchema.safeParse(formDataToObj);
+
+  if (!isAuthenticated) {
+    return {
+      formState: makePartialPublicPost(formDataToObj),
+      errors: ["Faca login em outra aba antes de salvar."],
+    };
+  }
 
   if (!zodParsedObj.success) {
     const errors = getZodErrorMessages(zodParsedObj.error);

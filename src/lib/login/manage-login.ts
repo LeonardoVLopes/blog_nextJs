@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
+import { redirect } from "next/navigation";
 
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 const jwtEncodedKey = new TextEncoder().encode(jwtSecretKey);
@@ -44,10 +45,47 @@ export async function deleteLoginSession() {
   cookieStore.delete(loginCookieName);
 }
 
+export async function getLoginSession() {
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get(loginCookieName)?.value;
+
+  if (!jwt) return false;
+
+  return verifyJwt(jwt);
+}
+
+export async function verifyLoginSession() {
+  const jwtPayLoad = await getLoginSession();
+
+  if (!jwtPayLoad) return false;
+
+  return jwtPayLoad?.username === process.env.LOGIN_USER;
+}
+
+export async function requireLoginSessionOrRedirect() {
+  const isAuthenticated = await verifyLoginSession();
+
+  if (!isAuthenticated) {
+    redirect("/admin/login");
+  }
+}
+
 export async function signJwt(jwtPayLoad: JwtPayLoad) {
   return new SignJWT(jwtPayLoad)
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
     .setIssuedAt()
     .setExpirationTime(loginExpStr)
     .sign(jwtEncodedKey);
+}
+
+export async function verifyJwt(jwt: string | undefined = "") {
+  try {
+    const { payload } = await jwtVerify(jwt, jwtEncodedKey, {
+      algorithms: ["HS256"],
+    });
+
+    return payload;
+  } catch {
+    return false;
+  }
 }
