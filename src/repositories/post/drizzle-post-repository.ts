@@ -12,7 +12,7 @@ export class DrizzlePostRepository implements PostRepository {
   // busca somente os posts com published true
   async findAllPublic(): Promise<postModel[]> {
     await asyncDelay(simulateWaitMs, true);
-    logColor("findAllPublic", Date.now());
+    logColor("findAllPublic");
 
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
@@ -25,7 +25,7 @@ export class DrizzlePostRepository implements PostRepository {
   // busca somente os posts com published true
   async findBySlugPublic(slug: string): Promise<postModel> {
     await asyncDelay(simulateWaitMs, true);
-    logColor("findBySlugPublic", Date.now());
+    logColor("findBySlugPublic");
 
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq, and }) =>
@@ -39,7 +39,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findAll(): Promise<postModel[]> {
     await asyncDelay(simulateWaitMs, true);
-    logColor("findAll", Date.now());
+    logColor("findAll");
 
     const posts = await drizzleDb.query.posts.findMany();
 
@@ -48,7 +48,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findById(id: string): Promise<postModel> {
     await asyncDelay(simulateWaitMs, true);
-    logColor("findById", Date.now());
+    logColor("findById");
 
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
